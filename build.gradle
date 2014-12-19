@@ -1,0 +1,54 @@
+// Apply Gradle plugins
+plugins {
+	id 'java'
+
+	id 'com.github.johnrengelman.shadow' version '1.2.0'
+}
+
+apply plugin:'application'
+
+defaultTasks 'clean', 'build', 'shadowJar'
+
+// Project information
+group = 'net.amigocraft.connectfour'
+version = '1.0.0'
+mainClassName = 'net.amigocraft.connectfour.ConnectFour'
+
+// Extended project information
+ext.projectName = 'ConnectFour'
+ext.description = 'Connect Four, plain and simple.'
+ext.inceptionYear = '2014'
+ext.packaging = 'jar'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+ext {
+    jansi = 'org.fusesource.jansi:jansi:1.11'
+}
+
+// Project repositories
+repositories {
+	mavenCentral()
+}
+
+// Project dependencies
+dependencies {
+    compile jansi
+}
+
+// Read source files using UTF-8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+jar {
+	classifier = 'base'
+}
+
+shadowJar {
+	dependencies {
+		include dependency(jansi)
+	}
+	classifier = ''
+}
