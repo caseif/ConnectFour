@@ -11,7 +11,7 @@ defaultTasks 'clean', 'build', 'shadowJar'
 
 // Project information
 group = 'net.amigocraft.connectfour'
-version = '1.0.0'
+version = '1.0.1'
 mainClassName = 'net.amigocraft.connectfour.ConnectFour'
 
 // Extended project information

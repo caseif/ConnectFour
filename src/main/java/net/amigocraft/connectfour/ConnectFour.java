@@ -3,6 +3,8 @@ package net.amigocraft.connectfour;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ConnectFour {
@@ -11,7 +13,6 @@ public class ConnectFour {
 	public static final String ANSI_YELLOW = "\u001B[33;1m";
 	public static final String ANSI_CYAN = "\u001B[36;1m";
 	public static final String ANSI_WHITE = "\u001B[37;1m";
-	public static final String ANSI_WHITE_DARK = "\u001B[37;0m";
 
 	private static int[][] pieces = new int[7][6];
 	private static boolean turn = true;
@@ -30,7 +31,17 @@ public class ConnectFour {
 		printBoard();
 		while (calcWinner() == 0){
 			AnsiConsole.out.println((turn ? ANSI_RED + "Player 1," : ANSI_CYAN + "Player 2,") + ANSI_WHITE + " it is your turn.");
-			int col = sc.nextInt() - 1;
+			int col;
+			try {
+				col = sc.nextInt() - 1;
+			}
+			catch (InputMismatchException ex){
+				AnsiConsole.out.println("Invalid input!");
+				continue;
+			}
+			catch (NoSuchElementException ex){
+				break; // clean termination
+			}
 			if (col >= pieces.length){
 				AnsiConsole.out.println("Invalid column!");
 				continue;
@@ -62,7 +73,6 @@ public class ConnectFour {
 			}
 			turn = !turn;
 		}
-		AnsiConsole.out.print(ANSI_WHITE_DARK); // reset the console color (seems to be broken atm)
 	}
 
 	public static void printBoard(){
@@ -83,14 +93,14 @@ public class ConnectFour {
 	}
 
 	public static int calcWinner(){
-		//AnsiConsole.out.println("all: " + checkCols() + ", " + checkRows() + ", " + checkDiags());
+		//AnsiConsole.out.println("All: " + checkCols() + ", " + checkRows() + ", " + checkDiags());
 		return Math.max(checkCols(), Math.max(checkRows(), checkDiags()));
 	}
 
 	private static int checkCols(){
-		int streak = 0;
-		int last = 0;
 		for (int i = 0; i < pieces.length; i++){
+			int streak = 0;
+			int last = 0;
 			for (int j = 0; j < pieces[i].length; j++){
 				if (last != 0){
 					if (pieces[i][j] == last){
@@ -116,9 +126,9 @@ public class ConnectFour {
 	}
 
 	private static int checkRows(){
-		int streak = 0;
-		int last = 0;
 		for (int j = 0; j < pieces[0].length; j++){
+			int last = 0;
+			int streak = 0;
 			for (int i = 0; i < pieces.length; i++){
 				if (last != 0){
 					if (pieces[i][j] == last){
@@ -158,7 +168,7 @@ public class ConnectFour {
 					if (pieces[i + off][j + off] != prec)
 						continue genLoop;
 				}
-				//AnsiConsole.out.println("up diag: " + i + ", " + j);
+				//AnsiConsole.out.println("Up diag: " + i + ", " + j);
 				return prec;
 			}
 		}
@@ -176,7 +186,7 @@ public class ConnectFour {
 					if (pieces[i + off][j - off] != prec)
 						continue genLoop;
 				}
-				//AnsiConsole.out.println("down diag: " + i + ", " + j);
+				//AnsiConsole.out.println("Down diag: " + i + ", " + j);
 				return prec;
 			}
 		}
