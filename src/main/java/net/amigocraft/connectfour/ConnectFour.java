@@ -7,6 +7,11 @@ import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * A simple command line Connect Four app.
+ * @author Maxim Roncace
+ * @version 1.0.2
+ */
 public class ConnectFour {
 
 	public static final String ANSI_RED = "\u001B[31;1m";
@@ -18,7 +23,10 @@ public class ConnectFour {
 	private static boolean turn = true;
 	private static Scanner sc = new Scanner(System.in);
 
-	public static void initLoop(){ // initialize the game look
+	/**
+	 * Initializes and runs the main game loop
+	 */
+	public static void initLoop(){ // initialize the game loop
 		for (int[] row : pieces)
 			Arrays.fill(row, 0); // fill the piece array
 		printBoard(); // render the board
@@ -72,6 +80,9 @@ public class ConnectFour {
 		}
 	}
 
+	/**
+	 * Prints the board in its current state to the console.
+	 */
 	public static void printBoard(){
 		// print the column numbers
 		AnsiConsole.out.print(ANSI_WHITE + "( ");
@@ -93,11 +104,19 @@ public class ConnectFour {
 		}
 	}
 
+	/**
+	 * Determines whether a player has won the game.
+	 * @return the number of the player who has won, or 0 if a winner cannot be determined.
+	 */
 	public static int calcWinner(){
 		//AnsiConsole.out.println("All: " + checkCols() + ", " + checkRows() + ", " + checkDiags()); // debug
 		return Math.max(checkCols(), Math.max(checkRows(), checkDiags())); // check all possible arrangements
 	}
 
+	/**
+	 * Determines whether a player has won vertically.
+	 * @return the number of the player who has won, or 0 if a winner cannot be determined.
+	 */
 	private static int checkCols(){ // checks for vertical win
 		for (int i = 0; i < pieces.length; i++){ // iterate columns
 			int streak = 0; // current consecutive piece streak
@@ -126,6 +145,10 @@ public class ConnectFour {
 		return 0; // no winner
 	}
 
+	/**
+	 * Determines whether a player has won horizontally.
+	 * @return the number of the player who has won, or 0 if a winner cannot be determined.
+	 */
 	private static int checkRows(){ // checks rows for horizontal victory
 		for (int j = 0; j < pieces[0].length; j++){ // iterate rows
 			int last = 0;
@@ -154,10 +177,18 @@ public class ConnectFour {
 		return 0;
 	}
 
+	/**
+	 * Determines whether a player has won diagonally.
+	 * @return the number of the player who has won, or 0 if a winner cannot be determined.
+	 */
 	private static int checkDiags(){
 		return Math.max(checkUpDiags(), checkDownDiags());
 	}
 
+	/**
+	 * Determines whether a player has won diagonally, going up and right.
+	 * @return the number of the player who has won, or 0 if a winner cannot be determined.
+	 */
 	private static int checkUpDiags(){ // checks for diagonal victory going right and up
 		for (int i = 0; i < pieces.length - 3; i++){ // iterate rows
 			genLoop:
@@ -176,6 +207,10 @@ public class ConnectFour {
 		return 0; // no winner
 	}
 
+	/**
+	 * Determines whether a player has won diagonally, going down and right.
+	 * @return the number of the player who has won, or 0 if a winner cannot be determined.
+	 */
 	private static int checkDownDiags(){ // checks for diagonal victory going right and down
 		for (int i = 0; i < pieces.length - 3; i++){ // iterate columns
 			genLoop:
