@@ -18,16 +18,9 @@ public class ConnectFour {
 	private static boolean turn = true;
 	private static Scanner sc = new Scanner(System.in);
 
-	public static void main(String[] args){
-
+	public static void initLoop(){
 		for (int[] row : pieces)
 			Arrays.fill(row, 0);
-
-		initLoop();
-
-	}
-
-	public static void initLoop(){
 		printBoard();
 		while (calcWinner() == 0){
 			AnsiConsole.out.println((turn ? ANSI_RED + "Player 1," : ANSI_CYAN + "Player 2,") + ANSI_WHITE + " it is your turn.");
