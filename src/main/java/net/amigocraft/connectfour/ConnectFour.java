@@ -36,7 +36,7 @@ public class ConnectFour {
 			// notify whichever player that it's their turn
 			int col; // init so we can catch any user-triggered exceptions
 			try {
-				col = sc.nextInt() - 1;
+				col = sc.nextInt() + 1;
 			}
 			catch (InputMismatchException ex){ // they entered a non-integer
 				AnsiConsole.out.println("Invalid input!");
