@@ -3,8 +3,9 @@ package net.amigocraft.connectfour;
 /**
  * The main class, which calls the class that actually orchestrates the game.
  * This serves only to serve the assignment requirements, and is neither necessary nor practical.
- * @author Maxim Roncace
- * @version 1.0.2
+ *
+ * @author Max Roncace
+ * @version 1.0.3
  */
 public class Main {
 

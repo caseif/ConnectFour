@@ -9,8 +9,9 @@ import java.util.Scanner;
 
 /**
  * A simple command line Connect Four app.
+ *
  * @author Maxim Roncace
- * @version 1.0.2
+ * @version 1.0.3
  */
 public class ConnectFour {
 
@@ -22,6 +23,8 @@ public class ConnectFour {
 	private static int[][] pieces = new int[7][6];
 	private static boolean turn = true;
 	private static Scanner sc = new Scanner(System.in);
+
+	private static final Object obj = new Object(); // exclusively for hanging the thread
 
 	/**
 	 * Initializes and runs the main game loop
@@ -36,7 +39,7 @@ public class ConnectFour {
 			// notify whichever player that it's their turn
 			int col; // init so we can catch any user-triggered exceptions
 			try {
-				col = sc.nextInt() + 1;
+				col = sc.nextInt();
 			}
 			catch (InputMismatchException ex){ // they entered a non-integer
 				AnsiConsole.out.println("Invalid input!");
@@ -45,14 +48,14 @@ public class ConnectFour {
 			catch (NoSuchElementException ex){ // the program is being terminated
 				break; // clean termination
 			}
-			if (col < 1 || col >= pieces.length){ // piece is out of range
+			if (col < 1 || col > pieces.length){ // piece is out of range
 				AnsiConsole.out.println("Invalid column!");
 				continue; // player retains turn
 			}
 			boolean placed = false; // whether the piece has been placed yet
-			for (int i = 0; i < pieces[col].length; i++){ // if this loop finishes the column is full
-				if (pieces[col][i] == 0){ // if there is no piece present yet
-					pieces[col][i] = turn ? 1 : 2; // place it for whichever player
+			for (int i = 0; i < pieces[col - 1].length; i++){ // if this loop finishes the column is full
+				if (pieces[col - 1][i] == 0){ // if there is no piece present yet
+					pieces[col - 1][i] = turn ? 1 : 2; // place it for whichever player
 					placed = true; // piece has been placed
 					break; // no need to continue with the loop, that would screw things up a lot
 				}
@@ -67,7 +70,6 @@ public class ConnectFour {
 				AnsiConsole.out.println((winner == 1 ? ANSI_RED : ANSI_CYAN) + "Player " + winner + ANSI_WHITE +
 						" wins!"); // notify
 				try {
-					Object obj = new Object(); // exclusively for hanging the thread
 					synchronized (obj){ // required to obtain object lock
 						obj.wait(3000L); // wait 3 seconds before exiting
 					}
