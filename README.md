@@ -9,6 +9,6 @@ Compiling
 ---------
 This app uses Gradle to manage compilation. To build:
 
-1. `git clone https://github.com/mproncace/ConnectFour`
+1. `git clone https://github.com/caseif/ConnectFour`
 2. `cd ConnectFour`
 3. `./gradlew` (Linux/Unix/OS X) or `gradlew` (Windows)
